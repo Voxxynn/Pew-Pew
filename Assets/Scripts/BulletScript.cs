@@ -10,16 +10,22 @@ public class BulletScript : MonoBehaviour {
 	private Vector3 fireDirection;
 
 	void Start(){
-		fireDirection = transform.forward;
+		fireDirection = transform.forward.normalized;
+		//GetComponent<Rigidbody> ().velocity = fireDirection * moveSpeed;
 		//transform.parent = null;
 	}
 
 	void Update () {
-		transform.position += fireDirection * moveSpeed * Time.deltaTime;
+		transform.position += transform.forward.normalized * moveSpeed;
+
 		if (liveTime < 0) {
 			Destroy (gameObject);
-		} else {
-			liveTime -= Time.deltaTime;
 		}
+		liveTime -= Time.deltaTime;
 	}
+		
+	void OnCollisionEnter(Collision col){
+		Destroy (gameObject);
+	}
+
 }
